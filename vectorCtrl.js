@@ -33,26 +33,54 @@ app.controller('vectorCtrl', function($scope) {
 
     //This method is called whensubmitting equation 
     $scope.addExp = function(exp) {
-        window.inputEquation = exp;
+         window.inputEquation = exp;
+
+        var newTxt = window.inputEquation.split("");
+        
+        var openBrace = [];
+        var closeBrace = [];
+        for (var i = 0; i < newTxt.length; i++) {
+
+            if (newTxt[i] == "(") {
+
+               openBrace.push(i);
+
+            } else if (newTxt[i] == ")") {
+                closeBrace.push(i);
+            }
+
+        }
+        //Checking for mismatched braces
+        if (openBrace.length != closeBrace.length) {
+            alert("Braces do not match. Please correct it and try again.");
+        }
+//input does not match with x variable 
+if(!window.inputEquation.match("x", exp))
+{
+  alert("Please use X variable");
+}
         //Checking for expression empty case
         if (exp === undefined) {
             alert("Please enter an equation.")
-        } else if (window.inputEquation.match("sqrt", exp)) {
+        } 
+        if (window.inputEquation.match("sqrt", exp)) {
             window.inputEquation = exp.replace("sqrt", "Math.sqrt");
-        } else if (window.inputEquation.match("pow", exp)) {
+            exp=window.inputEquation;
+        } 
+        if (window.inputEquation.match("pow", exp)) {
             window.inputEquation = exp.replace("pow", "Math.pow");
+             exp=window.inputEquation;
         }
-        debugger;
-        console.log(eval(window.inputEquation));
+         
+      //  console.log(eval(window.inputEquation));
         var y = window.vectorArray;
          var generatedOut = [];
          for (j = 0; j < y.length; j++) {
             var x = y[j];
-            window.finalResult = eval(window.inputEquation);
+            window.finalResult = eval(exp);
             generatedOut.push(window.finalResult);
         }
      $scope.outputData = generatedOut;
-     debugger;
       /*  var newTxt = window.inputEquation.split("");
         
         var openBrace = [];
